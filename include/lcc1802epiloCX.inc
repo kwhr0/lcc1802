@@ -84,6 +84,7 @@ lcc1802init:
 	$$_00000:
 		Ccall _main	;call the main routine
 		pagefit 3
+	idl	;(for emulator)
 	$$_die:	br	$$_die		;loop here when main returns
   ENDIF
   IFDEF LCCPX

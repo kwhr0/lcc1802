@@ -8,18 +8,18 @@
 static char rcsid[] = "$Id: linux.c,v 1.5 1998/09/16 20:41:09 drh Exp $";
 
 #ifndef LCCDIR
-#define LCCDIR "/lcc1802/"
+#define LCCDIR "/usr/local/share/lcc1802/"
 #endif
 #ifndef LCCEXE
-#define LCCEXE "/usr/bin/"
+#define LCCEXE "/usr/local/bin/"
 #endif
 
 char *suffixes[] = { ".c", ".i", ".s", ".o", ".out", 0 };
 char inputs[256] = "";
-char *include[] = {"-I" LCCDIR "include", "-I/usr/include", 0 };
-char *cpp[] = { LCCEXE "cpp", "-D__STRICT_ANSI__", "$1", "$2", "$3", 0 };
+char *include[] = {"-I" LCCDIR "include", 0 };
+char *cpp[] = { LCCEXE "lcpp", "-D__STRICT_ANSI__", "$1", "$2", "$3", 0 };
 char *com[] = { LCCEXE "rcc", "-target=xr18CX", "$1", "$2", "$3", 0 }; //wjr 20-18-10
-char *as[] = { "/usr/bin/asl", "-cpu", "1802", "-i", LCCDIR "include", "-L", "-quiet", "", "-o", "$3", "$1", "$2", 0 };
+char *as[] = { LCCEXE "asl", "-cpu", "1802", "-i", LCCDIR "include", "-L", "-quiet", "", "-o", "$3", "$1", "$2", 0 };
 //char *as[] = { "/lcc1802/ash.sh", "-cpu 1802", "-i " LCCDIR "include", "-L", "-quiet", "", "-o", "$3", "$1", "$2", 0 };
 char *ld[] = { LCCEXE "p2hex", "", "", "", "", "$2", "$3", "","",0 }; //wjr dec 12
 char *peep[] = { LCCEXE "copt", LCCDIR "include/lcc1806.opt", "-I", "$2", "-O", "$3", 0 }; //#wjr 20-05-10
@@ -29,7 +29,7 @@ extern char *concat(char *, char *);
 int option(char *arg) {
 	if (strncmp(arg, "-lccdir=", 8) == 0) {
 		include[0] = concat("-I", concat(&arg[8], "/include"));
-		cpp[0] = concat(&arg[8], "/cpp");
+		cpp[0] = concat(&arg[8], "/lcpp");
 		com[0] = concat(&arg[8], "/rcc");
 		as[0] = concat(&arg[8], "/asl");
 		ld[0]  = concat(&arg[8], "/p2hex");

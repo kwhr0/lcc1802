@@ -4,7 +4,9 @@
 //April 10 moving float constants to nstdlib.c, adding ifndef of nofloats around ftoa
 //April 21 adding defs for putx memset
 //May 26 adding declare for strlen
+#ifndef __KLIBC__
 unsigned int strlen(char *str);
+#endif
 #define putchar putc
 #define puts printstr
 char * strcpy(char *, const char*);
@@ -21,9 +23,11 @@ void exit(int); //halt with a numeric error message
 #define max(a,b) (((a) > (b)) ? (a) : (b))
 #define min(a,b) (((a) < (b)) ? (a) : (b))
 #endif
+#ifndef __KLIBC__
 int memcmp(const void *Ptr1, const void *Ptr2, unsigned int Count);
 void *memset(void *s, int c, unsigned int n); //sets n bytes of memory at s to c
 void* memcpy(void* dest, const void* src, unsigned int count);
+#endif
 char * dubdabx(long, char *, int);
 
 void putx(unsigned char x); //print an unsigned char as ascii hex

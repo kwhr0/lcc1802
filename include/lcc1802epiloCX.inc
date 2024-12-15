@@ -74,7 +74,7 @@ lcc1802init:
     ENDIF
   ENDIF
 	  IFNDEF  STACKLOC		;wjr 16-09-20 allow stack relocation
-		ldiReg	SP,0x7fff	;wjr jan 1 start stack at 32K-1 as default
+		ldiReg	SP,0xefff	;(for emulator) start stack at 60K-1 as default
 	  ELSEIF				;wjr 16-09-20
 		ldiReg	SP,STACKLOC	;wjr 16-09-20 start stack as specified
 	  ENDIF				;wjr 16-09-20

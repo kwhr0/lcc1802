@@ -9,7 +9,7 @@ A=.a
 O=.o
 E=
 CC=cc
-CFLAGS=-g
+CFLAGS=-g -Wno-implicit-function-declaration -Wno-implicit-int
 LDFLAGS=-g
 LD=$(CC)
 AR=ar ruv
@@ -23,13 +23,13 @@ B=$(BUILDDIR)/
 T=$(TSTDIR)/
 
 what:
-	-@echo make all rcc lburg cpp lcc bprint copt liblcc triple clean clobber
+	-@echo make all rcc lburg lcpp lcc bprint copt liblcc triple clean clobber
 
-all::	rcc lburg cpp lcc bprint liblcc copt
+all::	rcc lburg lcpp lcc bprint liblcc copt
 
 rcc:	$Brcc$E
 lburg:	$Blburg$E
-cpp:	$Bcpp$E
+lcpp:	$Blcpp$E
 lcc:	$Blcc$E
 bprint:	$Bbprint$E
 copt:	$Bcopt$E
@@ -173,7 +173,7 @@ $Bgram$O:	lburg/gram.c;	$(CC) $(CFLAGS) -c -Ilburg -o $@ lburg/gram.c
 CPPOBJS=$Bcpp$O $Blexer$O $Bnlist$O $Btokens$O $Bmacro$O $Beval$O \
 	$Binclude$O $Bhideset$O $Bgetopt$O $Bunix$O
 
-$Bcpp$E:	$(CPPOBJS)
+$Blcpp$E:	$(CPPOBJS)
 		$(LD) $(LDFLAGS) -o $@ $(CPPOBJS) 
 
 $(CPPOBJS):	cpp/cpp.h
@@ -255,7 +255,7 @@ clean::		testclean
 		$(RM) $B*.ilk
 
 clobber::	clean
-		$(RM) $Brcc$E $Blburg$E $Bcpp$E $Blcc$E $Bcp$E $Bbprint$E $Bcopt$E $B*$A
+		$(RM) $Brcc$E $Blburg$E $Blcpp$E $Blcc$E $Bcp$E $Bbprint$E $Bcopt$E $B*$A
 		$(RM) $B*.pdb $B*.pch
 
 RCCSRCS=src/alloc.c \
@@ -309,7 +309,7 @@ triple:	$B2rcc$E
 		mv $B2rcc$E $Brcc$E; \
 		$(RM) $B1rcc$E $Brcc[12]$E; fi
 
-$B1rcc$E:	$Brcc$E $Blcc$E $Bcpp$E
+$B1rcc$E:	$Brcc$E $Blcc$E $Blcpp$E
 		$C -o $@ -B$B $(RCCSRCS)
 $B2rcc$E:	$B1rcc$E
 		$C -o $@ -B$B1 $(RCCSRCS)

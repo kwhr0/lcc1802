@@ -74,7 +74,7 @@ lcc1802init:
     ENDIF
   ENDIF
 	  IFNDEF  STACKLOC		;wjr 16-09-20 allow stack relocation
-		ldiReg	SP,0x7fff	;wjr jan 1 start stack at 32K-1 as default
+		ldiReg	SP,0xefff	;(for emulator) start stack at 60K-1 as default
 	  ELSEIF				;wjr 16-09-20
 		ldiReg	SP,STACKLOC	;wjr 16-09-20 start stack as specified
 	  ENDIF				;wjr 16-09-20
@@ -84,6 +84,7 @@ lcc1802init:
 	$$_00000:
 		Ccall _main	;call the main routine
 		pagefit 3
+	idl	;(for emulator)
 	$$_die:	br	$$_die		;loop here when main returns
   ENDIF
   IFDEF LCCPX

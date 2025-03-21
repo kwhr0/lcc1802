@@ -14,6 +14,7 @@
 //Mar 14 2017 inserting conditional NOP's into printstr, printf to slow down on 1806
 //17-10-19 register variable declaration in printf
 //20-05-22 rearranged dec/inc in memset
+ #ifndef __KLIBC__
  int strncmp(const char *s1, const char *s2, unsigned int n)
 /* ANSI sez:
  *   The `strncmp' function compares not more than `n' characters (characters
@@ -42,6 +43,7 @@ unsigned int strlen(char *str)
    }
    return slen;
 }
+#endif
 void printstr(char *ptr){
     while(*ptr){
 		putc(*ptr++); //jan 29
@@ -256,8 +258,9 @@ void printf(char *pptr,...){ //limited implementation of printf
 } //prtf
 void exit(int code){
 	printf("exit %d\n",code);
-	while(1);
+	asm("\tidl\n"); // for emulator
 }
+#ifndef __KLIBC__
 int memcmp(const void *Ptr1, const void *Ptr2, unsigned int Count){
 	unsigned char* p1; unsigned char *p2;
     int v = 0;
@@ -290,6 +293,7 @@ void *memset(void *s, int c, unsigned int n) //sets memory at s to c for n bytes
 	}
     return s;
 }
+#endif
 void nstdlibincluder(){
 	asm("\tinclude nstdlib.inc\n"); //strcpy, strcmp
 }
